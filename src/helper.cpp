@@ -1,7 +1,16 @@
 #include "helper.h"
 
-bool exclusive_contains_components(std::vector<component_id> &types, 
-                                        std::vector<component_id> &types2)
+bool contains_components(std::vector<component_id> &types, std::vector<component_id> &types2)
+{
+    for(component_id type : types) {
+        if(std::find(types2.begin(), types2.end(), type) == types2.end()) 
+            return false;
+    }
+    return true;
+}
+
+bool exclusive_contains_components(std::vector<component_id> &types,
+                                   std::vector<component_id> &types2)
 {
     if(types.size() != types2.size())
         return false;

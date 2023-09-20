@@ -13,6 +13,7 @@ inline bool contains(const std::vector<C> &v, C &c)
     return false;
 }
 
+bool contains_components(std::vector<component_id> &types, std::vector<component_id> &types2);
 bool exclusive_contains_components(std::vector<component_id> &types, std::vector<component_id> &types2);
 
 #endif // HELPER_H

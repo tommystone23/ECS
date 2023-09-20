@@ -31,6 +31,44 @@ size_t ECS::get_component_size(component_id id)
     return _component_sizes.at(id);
 }
 
+bool ECS::get_groupings_by_type(std::vector<component_id> &types, 
+                                std::vector<component_grouping_t*> *grouping_out)
+{
+    std::vector<component_grouping_t*> groupings;
+    for(component_grouping_t *grouping : _component_groupings) {
+        if(contains_components(grouping->types, types))
+            groupings.push_back(grouping);
+    }
+
+    if(!groupings.size())
+        return false;
+
+    if(grouping_out)
+        *grouping_out = groupings;
+
+    return true;
+}
+
+bool ECS::get_groupings_by_type_exclusive(std::vector<component_id> &types, 
+                                            component_grouping_t *grouping_out)
+{
+    component_grouping_t *new_grouping = NULL;
+    for(component_grouping_t *grouping : _component_groupings) {
+        if(exclusive_contains_components(grouping->types, types)) {
+            new_grouping = grouping;
+            break; 
+        }
+    }
+
+    if(!new_grouping)
+        return false;
+
+    if(grouping_out)
+        grouping_out = new_grouping;
+
+    return true;
+}
+
 void ECS::add_component_grouping(component_grouping_t *grouping)
 {
     // Check if component grouping already exists

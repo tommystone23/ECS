@@ -26,6 +26,10 @@ public:
     entity_id create_entity();
     Entity* get_entity(entity_id ent_id) { return _entities[ent_id]; }
     size_t get_component_size(component_id id);
+    bool get_groupings_by_type(std::vector<component_id> &types, 
+                                                            std::vector<component_grouping_t*> *grouping_out); // Get grouping if has the types
+    bool get_groupings_by_type_exclusive(std::vector<component_id> &types, 
+                                                                        component_grouping_t *grouping_out);  // Gets the grouping if it ONLY has the types provided
 
     void add_component_grouping(component_grouping_t *grouping);
     void remove_component_grouping(component_grouping_t *grouping);
