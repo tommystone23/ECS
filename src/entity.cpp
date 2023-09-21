@@ -1,5 +1,6 @@
 #include "entity.h"
 #include "helper.h"
+#include <stdio.h>
 
 Entity::Entity(entity_id id, ECS *ecs)
     : _ecs(ecs),

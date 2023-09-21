@@ -24,6 +24,9 @@ void create_new_grouping(Entity *entity, ECS *ecs)
         p += sizeof(component_header_t);
 
         memcpy(p, comp_data.data, comp_data.data_size);
+
+        grouping->entities.push_back(entity->get_id());
+        grouping->types.push_back(comp_data.id);
     }
 
     ecs->add_component_grouping(grouping);
@@ -50,7 +53,9 @@ void add_component_data(std::vector<unsigned char*> &dest_comp_data,
             }
         }
 
-        memcpy(p, &src, data_size);
+        memcpy(p, src.data, src.data_size);
+
+        header->bytes_written += data_size;
     }
 }
 

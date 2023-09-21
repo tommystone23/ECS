@@ -39,11 +39,8 @@ public:
     }
 
     template <class C> component_id add_component(entity_id entity_id, C &&c) {
-        if(_entities.find(entity_id) != _entities.end())
-            return -1;
-
         component_id comp_id = IdGenerator<Component>::get_new_id<C>();
-        if(_component_sizes.find(comp_id) != _component_sizes.end())
+        if(_component_sizes.find(comp_id) == _component_sizes.end())
             _component_sizes.insert(std::pair(comp_id, sizeof(C)));
 
         Entity *entity = _entities.at(entity_id);
@@ -54,10 +51,6 @@ public:
         entity->add_component(comp_data);
 
         return comp_id;
-    }
-
-    template <class C, typename... Args> component_id add_component(entity_id entity_id, Args&&... args) {
-        return IdGenerator<Component>::get_new_id<C>();
     }
 
     void commit_components(entity_id id);

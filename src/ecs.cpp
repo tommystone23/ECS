@@ -18,9 +18,10 @@ void ECS::init()
 entity_id ECS::create_entity()
 {
     Entity *entity = new Entity(_id_pool++, this);
-    _entities.insert(std::pair(entity->get_id(), entity));
+    entity_id id = entity->get_id();
+    _entities.insert(std::pair(id, entity));
 
-    return entity->get_id();
+    return id;
 }
 
 size_t ECS::get_component_size(component_id id)
@@ -36,11 +37,11 @@ bool ECS::get_groupings_by_type(std::vector<component_id> &types,
 {
     std::vector<component_grouping_t*> groupings;
     for(component_grouping_t *grouping : _component_groupings) {
-        if(contains_components(grouping->types, types))
+        if(contains_components(types, grouping->types))
             groupings.push_back(grouping);
     }
 
-    if(!groupings.size())
+    if(!groupings.size()) 
         return false;
 
     if(grouping_out)
@@ -96,8 +97,11 @@ void ECS::commit_components(entity_id id)
 
 void ECS::register_system(System *system, int layer)
 {
+    // Init systems layers
+    if(_systems.size() == 0) 
+        _systems.resize(1);
     if(layer > _systems.size())
-        _systems.resize(layer);
+        _systems.resize(layer + 1);
 
     _systems[layer].push_back(system);
 }
@@ -109,6 +113,9 @@ void ECS::run_systems(float delta_time)
             continue;
         if(system_layer.size() > 1) {
             run_concurrent_systems(delta_time, system_layer);
+        }
+        else {
+            system_layer[0]->run_system(delta_time);
         }
     }
 }
