@@ -59,9 +59,11 @@ void add_component_data(std::vector<unsigned char*> &dest_comp_data,
     }
 }
 
-void free_component_data(std::vector<unsigned char*> comp_data)
+void free_component_data(std::vector<unsigned char*> &comp_data)
 {
     for(unsigned char *data : comp_data) {
         free(data);
     }
+
+    comp_data.clear();
 }

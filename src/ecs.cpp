@@ -8,6 +8,14 @@ ECS::ECS()
 ECS::~ECS()
 {
     delete _thread_pool;
+    for(auto i = _entities.begin(); i != _entities.end(); ++i) {
+        delete i->second;
+    }
+    _entities.clear();
+
+    for(component_grouping_t *grouping : _component_groupings) {
+        free_component_data(grouping->component_data);
+    }   
 }
 
 void ECS::init()
@@ -100,7 +108,7 @@ void ECS::register_system(System *system, int layer)
     // Init systems layers
     if(_systems.size() == 0) 
         _systems.resize(1);
-    if(layer > _systems.size())
+    if(layer >= _systems.size())
         _systems.resize(layer + 1);
 
     _systems[layer].push_back(system);

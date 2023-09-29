@@ -8,7 +8,7 @@
 class ECS;
 class Entity;
 
-#define MAX_ENTITIES 1000
+#define MAX_ENTITIES 10000
 
 using entity_id = uint32_t;
 using component_id = uint16_t;
@@ -47,7 +47,7 @@ void add_component_data(std::vector<unsigned char*> &dest_comp_data,
                                 std::vector<component_data_t> &src_comp_data,
                                 ECS *ecs);
 
-void free_component_data(std::vector<unsigned char*> comp_data);
+void free_component_data(std::vector<unsigned char*> &comp_data);
 
 
 #endif // COMPONENT_H

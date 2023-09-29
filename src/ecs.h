@@ -1,7 +1,7 @@
 #ifndef ECS_H
 #define ECS_H
 
-#define MAX_ENTITIES 1000
+#define MAX_ENTITIES 10000
 
 #include <stdint.h>
 #include <unordered_map>
